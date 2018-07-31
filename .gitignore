@@ -13,3 +13,4 @@ bower_components/
 result.xml
 npm-debug.log
 yarn-error.log
+package-lock.json
