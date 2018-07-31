@@ -83,4 +83,4 @@ const htmlDaysRender = (data, target) => {
     }).join('');
 }
 
-htmlDaysRender(getAllDaysOfCalendar(2018, 9), '#calendar');
+htmlDaysRender(getAllDaysOfCalendar(2018, 9), '#calendarMonths');
