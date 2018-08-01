@@ -3,7 +3,6 @@ const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
-// Is the current build a development build
 const IS_DEV = (process.env.NODE_ENV === 'dev');
 
 const dirNode = 'node_modules';
@@ -56,8 +55,9 @@ module.exports = {
                 test: /\.scss$/,
                 use: [
                     MiniCssExtractPlugin.loader,
-                    "css-loader",
-                    "sass-loader"
+                    'css-loader',
+                    'postcss-loader',
+                    'sass-loader',
                 ]
             },
 

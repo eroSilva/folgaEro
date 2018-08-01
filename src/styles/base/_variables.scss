@@ -2,7 +2,55 @@
 // Variáveis do projeto
 // -----------------------------------
 
+
 // Cores
-$primary-color  : #e5e5e5;
-$text-color     : #3d3d3d;
-$body-background: #FFF;
+$primary-color              : #e5e5e5;
+$text-color                 : #3d3d3d;
+$body-background            : #FFF;
+
+
+// Transições
+$transition-default         : .2s ease;
+
+
+// Textos
+$font-family-base           : 'Noto Sans', sans-serif;
+$font-size-base             : 16px;
+
+
+// Container e Grid
+$width-container-xxlg       : 1440px !default;
+$width-container-xlg        : 1200px !default;
+$width-container-lg         : 1070px !default;
+$width-container-md         : 980px !default;
+$width-container-sm         : 658px !default;
+$width-container-xs         : 320px !default;
+
+$padding-base               : 10px !default;
+$padding-base-horizontal    : $padding-base !default;
+$padding-base-vertical      : $padding-base !default;
+
+
+// Media queries
+$screen-xs                  : 480px !default;
+$screen-sm                  : 768px !default;
+$screen-md                  : 992px !default;
+$screen-lg                  : 1200px !default;
+$screen-xlg                 : 1400px !default;
+$screen-xxlg                : 1900px !default;
+
+$screen-xs-max              : ($screen-sm - 1) !default;
+$screen-sm-max              : ($screen-md - 1) !default;
+$screen-md-max              : ($screen-lg - 1) !default;
+$screen-lg-max              : ($screen-xlg - 1) !default;
+$screen-xlg-max             : ($screen-xxlg - 1) !default;
+
+$screen-xs-min              : $screen-xs !default;
+$screen-sm-min              : $screen-sm !default;
+$screen-md-min              : $screen-md !default;
+$screen-lg-min              : $screen-lg !default;
+$screen-xlg-min             : $screen-xlg !default;
+$screen-xxlg-min            : $screen-xxlg !default;
+
+$breakpoint-max             : $screen-xs-max !default;
+$breakpoint-min             : $screen-sm-min !default;

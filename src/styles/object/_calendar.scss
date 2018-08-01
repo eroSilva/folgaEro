@@ -5,49 +5,81 @@
 
 // Container
 .calendar{
-    margin-top: 4em;
+    margin: 4em auto 0;
+    max-width: 540px;
+}
+
+.calendar-title{
+    @extend %text-center;
+    font-size: em(42px);
+    margin-bottom: 20px;
 }
 
 
 // Mês
 .calendar-month{
     @extend %list-style-none;
-
     display: grid;
     grid-template-columns: repeat(7, calc(100%/7) );
     grid-template-rows: repeat(6, calc(100%/6) );
     height: 70vh;
 }
 
-
-// Semana
-.week{
-    @extend %list-style-none;
-
-    display: grid;
-    grid-template-columns: repeat(7, calc(100%/7) );
-    background: $body-background;
-    box-shadow: 0 5px 15px -5px rgba(0, 0, 0, 0.1);
-}
-
-.week-day{
-    overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-    padding: 1.5em .5em;
-}
-
-
-// Dias
 .month-day{
     @extend %text-center;
-
     display: flex;
     justify-content: center;
     align-items: center;
     padding: .5em;
+
+    &.out{
+        color: rgba($text-color, .3);
+    }
 }
 
 .month-day__name{
     display: none;
+}
+
+
+// Semana
+.calendar-week{
+    @extend %list-style-none;
+    display: grid;
+    grid-template-columns: repeat(7, calc(100%/7) );
+    background: $body-background;
+
+    @media(max-width: $breakpoint-max){
+        box-shadow: 0 5px 15px -5px rgba(0, 0, 0, 0.1);
+    }
+}
+
+.week-day{
+    position: relative;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    padding: 1.5em .5em;
+
+    @media(max-width: $breakpoint-max){
+        color: transparent;
+
+        &:before{
+            content: attr(data-letter);
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            color: $text-color;
+            transform: translate(-50%, -50%);
+        }
+    }
+}
+
+
+input{
+    @media(max-width: $breakpoint-max){
+        &::placeholder{
+            color: red;
+        }
+    }
 }

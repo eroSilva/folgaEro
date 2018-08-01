@@ -15,9 +15,6 @@ const calendarNames = {
         'Dezembro'
     ]
 }
-
-
-// Funções para a criação do calendário
 const getMonthName = (month) => calendarNames.months[month - 1];
 const getDayOfWeekName = (date) => date.toLocaleString('pt-br', {weekday:'long'});
 const getLastDayOfMonth = (year, month) => month > 12 || month <= 0 ?  false : new Date(year, month, 0).getUTCDate();
@@ -57,6 +54,13 @@ const getAllDaysOfMonth = (year, month) => {
 
     return daysOfMonth;
 }
+const setOutOfMonth = (...days) => {
+    [...days].map((dayObject) => {
+        dayObject.map((day) => day.outOfMonth = true);
+    });
+
+    return [...days];
+}
 const getAllDaysOfCalendar = (year, month) => {
     const arrayOfDays = getAllDaysOfMonth(year, month);
     const arrayNextDays = getAllDaysOfMonth(year, month+1);
@@ -64,18 +68,16 @@ const getAllDaysOfCalendar = (year, month) => {
     const arrayNextDaysSliced = arrayNextDays.filter((e,i) => i < getEndDaysOfCalendar(arrayOfDays[arrayOfDays.length - 1].day).length);
     const arrayPrevDaysSliced = arrayPrevDays.reverse().filter((e,i) => i < getStartDaysOfCalendar(arrayOfDays[0].day).length);
 
+    setOutOfMonth(arrayNextDaysSliced, arrayPrevDaysSliced);
+
     return arrayOfDays.reverse().concat(arrayPrevDaysSliced).reverse().concat(arrayNextDaysSliced);
 }
-
-
-
-// Renderizador de HTML
 const htmlDaysRender = (data, target) => {
     const targetElement = document.querySelector(target);
 
     targetElement.innerHTML = data.map((day) => {
         return `
-            <li class="month-day">
+            <li class="month-day${(day.outOfMonth) ? ' out' : ''}" tabindex="0">
                 <span class="month-day__number">${day.dayTo}</span>
                 <span class="month-day__name">${day.name}</span>
             </li>
@@ -83,4 +85,8 @@ const htmlDaysRender = (data, target) => {
     }).join('');
 }
 
-htmlDaysRender(getAllDaysOfCalendar(2018, 9), '#calendarMonths');
+
+const startYear = DateMain.getUTCFullYear();
+const startMonth = DateMain.getUTCMonth() + 1;
+
+htmlDaysRender(getAllDaysOfCalendar(startYear, startMonth), '#calendarMonths');
