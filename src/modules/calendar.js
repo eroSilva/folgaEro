@@ -1,21 +1,7 @@
 // Informações do calendário
 const DateMain = new Date();
-const calendarNames = {
-    months: [
-        'Janeiro',
-        'Fevereiro',
-        'Abril',
-        'Março',
-        'Junho',
-        'Julho',
-        'Agosto',
-        'Setembro',
-        'Outubro',
-        'Novembro',
-        'Dezembro'
-    ]
-}
-const getMonthName = (month) => calendarNames.months[month - 1];
+
+const getMonthName = (date) => date.toLocaleString('pt-br', {month:'long'});
 const getDayOfWeekName = (date) => date.toLocaleString('pt-br', {weekday:'long'});
 const getLastDayOfMonth = (year, month) => month > 12 || month <= 0 ?  false : new Date(year, month, 0).getUTCDate();
 const getEndDaysOfCalendar = (lastDay) => {
@@ -72,10 +58,13 @@ const getAllDaysOfCalendar = (year, month) => {
 
     return arrayOfDays.reverse().concat(arrayPrevDaysSliced).reverse().concat(arrayNextDaysSliced);
 }
-const htmlDaysRender = (data, target) => {
-    const targetElement = document.querySelector(target);
+const htmlCalendarRender = (data, month, monthDays) => {
+    const targetMonth = document.querySelector(month);
+    const targetMonthDays = document.querySelector(monthDays);
 
-    targetElement.innerHTML = data.map((day) => {
+    targetMonth.innerHTML = getMonthName(DateMain);
+
+    targetMonthDays.innerHTML = data.map((day) => {
         return `
             <li class="month-day${(day.outOfMonth) ? ' out' : ''}" tabindex="0">
                 <span class="month-day__number">${day.dayTo}</span>
@@ -89,4 +78,4 @@ const htmlDaysRender = (data, target) => {
 const startYear = DateMain.getUTCFullYear();
 const startMonth = DateMain.getUTCMonth() + 1;
 
-htmlDaysRender(getAllDaysOfCalendar(startYear, startMonth), '#calendarMonths');
+htmlCalendarRender(getAllDaysOfCalendar(startYear, startMonth), '#calendarMonth', '#calendarMonthDays');
