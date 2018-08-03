@@ -5,8 +5,11 @@
 
 // Container
 .calendar{
-    margin: 4em auto 0;
+    margin: 3.5em auto 0;
     max-width: 540px;
+    padding: 30px;
+    box-shadow: 0 15px 35px 0px rgba(0,0,0,.04);
+    border-radius: 10px;
 }
 
 .calendar-title{
@@ -18,11 +21,19 @@
 
 // Mês
 .calendar-month{
+    @extend %text-center;
+    text-transform: capitalize;
+    font-size: em(32px);
+    padding: 0 .5em;
+}
+
+
+// Dias do mês
+.month-days{
     @extend %list-style-none;
     display: grid;
     grid-template-columns: repeat(7, calc(100%/7) );
     grid-template-rows: repeat(6, calc(100%/6) );
-    height: 70vh;
 }
 
 .month-day{
@@ -30,7 +41,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: .5em;
+    padding: 1.5em .5em;
 
     &.out{
         color: rgba($text-color, .3);
@@ -48,10 +59,7 @@
     display: grid;
     grid-template-columns: repeat(7, calc(100%/7) );
     background: $body-background;
-
-    @media(max-width: $breakpoint-max){
-        box-shadow: 0 5px 15px -5px rgba(0, 0, 0, 0.1);
-    }
+    box-shadow: 0 15px 35px -15px rgba(0,0,0,.1);
 }
 
 .week-day{
@@ -71,15 +79,6 @@
             left: 50%;
             color: $text-color;
             transform: translate(-50%, -50%);
-        }
-    }
-}
-
-
-input{
-    @media(max-width: $breakpoint-max){
-        &::placeholder{
-            color: red;
         }
     }
 }

@@ -2,7 +2,13 @@
 // Convertendo PX para EM
 // -----------------------------------
 
-// Conversor
+// PX to EM
 @function em($size, $base: $font-size-base){
     @return $size/$base+em;
+}
+
+
+// PX to REM
+@function rem($size){
+    @return $size/$font-size-base+rem;
 }
