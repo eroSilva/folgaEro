@@ -8,7 +8,7 @@
     padding: 0;
     box-sizing: border-box;
 
-    &:focus{
+    &:not(:hover):focus{
         outline-style: solid;
         outline-width: 2px;
         outline-offset: -5px;

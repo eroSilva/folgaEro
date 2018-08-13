@@ -4,12 +4,30 @@
 
 
 // Container
+.container{
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    min-height: 100vh;
+    overflow: hidden;
+}
+
+
+// Calendário
 .calendar{
-    margin: 3.5em auto 0;
+    width: 100%;
     max-width: 540px;
     padding: 30px;
     box-shadow: 0 15px 35px 0px rgba(0,0,0,.04);
     border-radius: 10px;
+    transition: $transition-default;
+
+    &.months-open{
+        transform: scale(.8);
+    }
 }
 
 .calendar-title{
@@ -19,12 +37,55 @@
 }
 
 
-// Mês
-.calendar-month{
+// Mêses
+.calendar-month__name{
     @extend %text-center;
+    @extend .btn;
+    @extend .btn__transparent;
     text-transform: capitalize;
-    font-size: em(32px);
-    padding: 0 .5em;
+    width: 100%;
+    margin: em(5px) auto;
+    font-size: em(26px);
+}
+
+.calendar-controls{
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: $z-months;
+    background: $primary-color;
+    transition: $transition-default cubic-bezier(0.8, 0.93, 0.35, 0.99);
+
+    .calendar-months__list{
+        @extend %list-style-none;
+        display: grid;
+        height: 100%;
+        grid-template-columns: repeat(4, calc(100%/4) );
+        grid-template-rows: repeat(3, calc(100%/3) );
+    }
+
+    .month{
+        @extend %text-center;
+        padding: 1em;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        transition: $transition-default;
+        cursor: pointer;
+
+        &:hover,
+        &:focus{
+            background-color: darken($primary-color, 10%);
+        }
+    }
+
+    &:not(.open){
+        transform: scale(1.5);
+        opacity: 0;
+        visibility: hidden;
+    }
 }
 
 

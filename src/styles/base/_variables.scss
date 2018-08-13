@@ -10,12 +10,16 @@ $body-background            : #FFF;
 
 
 // Transições
-$transition-default         : .2s ease;
+$transition-default         : .2s;
 
 
 // Textos
 $font-family-base           : 'Noto Sans', sans-serif;
 $font-size-base             : 16px;
+
+
+// Zindex
+$z-months             : 1000;
 
 
 // Container e Grid

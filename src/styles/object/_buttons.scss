@@ -1,0 +1,19 @@
+//
+// Botões
+// -----------------------------------
+
+// Base
+.btn{
+    cursor: pointer;
+    border: none;
+    outline: none;
+    transition-property: background-color, color;
+    transition-duration: $transition-default, $transition-default;
+
+    @include button-color($primary-color, $text-color, 'lighten');
+    @include button-size(em(14px) em(36px));
+}
+
+.btn__transparent{
+    @include button-transparent-color($primary-color, $text-color, 'lighten');
+}

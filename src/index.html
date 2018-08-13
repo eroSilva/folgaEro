@@ -10,20 +10,41 @@
 </head>
 <body>
 
-    <section class="calendar">
-        <h1 class="calendar-title">FolgaEro</h1>
-        <p id="calendarMonth" class="calendar-month"></p>
-        <ul class="calendar-week">
-            <li class="week-day" data-letter="D">Domingo</li>
-            <li class="week-day" data-letter="S">Segunda</li>
-            <li class="week-day" data-letter="T">Terça</li>
-            <li class="week-day" data-letter="Q">Quarta</li>
-            <li class="week-day" data-letter="Q">Quinta</li>
-            <li class="week-day" data-letter="S">Sexta</li>
-            <li class="week-day" data-letter="S">Sábado</li>
-        </ul>
-        <ul id="calendarMonthDays" class="month-days"></ul>
-    </section>
+    <main class="container">
+        <section id="calendar" class="calendar">
+            <h1 class="calendar-title">FolgaEro</h1>
+            <button id="calendarMonth" class="calendar-month__name"></button>
+            <ul class="calendar-week">
+                <li class="week-day" data-letter="D">Dom</li>
+                <li class="week-day" data-letter="S">Seg</li>
+                <li class="week-day" data-letter="T">Ter</li>
+                <li class="week-day" data-letter="Q">Qua</li>
+                <li class="week-day" data-letter="Q">Qui</li>
+                <li class="week-day" data-letter="S">Sex</li>
+                <li class="week-day" data-letter="S">Sáb</li>
+            </ul>
+            <ul id="calendarMonthDays" class="month-days"></ul>
+        </section>
+        <article id="calendarControls" class="calendar-controls">
+            <ul class="calendar-years__list">
+                <li></li>
+            </ul>
+            <ul class="calendar-months__list">
+                <li class="month">Jan</li>
+                <li class="month">Fev</li>
+                <li class="month">Mar</li>
+                <li class="month">Abr</li>
+                <li class="month">Mai</li>
+                <li class="month">Jun</li>
+                <li class="month">Jul</li>
+                <li class="month">Ago</li>
+                <li class="month">Set</li>
+                <li class="month">Out</li>
+                <li class="month">Nov</li>
+                <li class="month">Dez</li>
+            </ul>
+        </article>
+    </main>
 
     <!--
     <li class="month-day" tabindex="0">

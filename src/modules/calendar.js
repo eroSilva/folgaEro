@@ -1,9 +1,16 @@
 // Informações do calendário
 const DateMain = new Date();
+const CalendarElements = {
+    calendarContainer     : document.querySelector('#calendar'),
+    calendarMonthButton   : document.querySelector('#calendarMonth'),
+    calendarControls    : document.querySelector('#calendarControls'),
+    calendarMonthDays     : document.querySelector('#calendarMonthDays'),
+    calendarMonthItem     : document.querySelectorAll('#calendarControls .month'),
+}
 
 const getMonthName = (date) => date.toLocaleString('pt-br', {month:'long'});
 const getDayOfWeekName = (date) => date.toLocaleString('pt-br', {weekday:'long'});
-const getLastDayOfMonth = (year, month) => month > 12 || month <= 0 ?  false : new Date(year, month, 0).getUTCDate();
+const getLastDayOfMonth = (year, month) => month > 12 || month < 0 ?  false : new Date(year, month, 0).getUTCDate();
 const getEndDaysOfCalendar = (lastDay) => {
     const leftDays = [];
     let i;
@@ -58,13 +65,13 @@ const getAllDaysOfCalendar = (year, month) => {
 
     return arrayOfDays.reverse().concat(arrayPrevDaysSliced).reverse().concat(arrayNextDaysSliced);
 }
-const htmlCalendarRender = (data, month, monthDays) => {
-    const targetMonth = document.querySelector(month);
-    const targetMonthDays = document.querySelector(monthDays);
+const htmlCalendarRender = (dayMonth, month) => {
+    const targetMonth = CalendarElements.calendarMonthButton;
+    const targetMonthDays = CalendarElements.calendarMonthDays;
 
-    targetMonth.innerHTML = getMonthName(DateMain);
+    targetMonth.innerHTML = getMonthName(new Date(startYear, month+1, 0));
 
-    targetMonthDays.innerHTML = data.map((day) => {
+    targetMonthDays.innerHTML = dayMonth.map((day) => {
         return `
             <li class="month-day${(day.outOfMonth) ? ' out' : ''}" tabindex="0">
                 <span class="month-day__number">${day.dayTo}</span>
@@ -74,8 +81,25 @@ const htmlCalendarRender = (data, month, monthDays) => {
     }).join('');
 }
 
-
 const startYear = DateMain.getUTCFullYear();
-const startMonth = DateMain.getUTCMonth() + 1;
+const startMonth = DateMain.getUTCMonth();
 
-htmlCalendarRender(getAllDaysOfCalendar(startYear, startMonth), '#calendarMonth', '#calendarMonthDays');
+
+// Renderizando o calendário do mês corrente
+htmlCalendarRender(getAllDaysOfCalendar(startYear, startMonth), startMonth);
+
+
+// Atribuindo eventos de funcionalidades do calendário
+CalendarElements.calendarMonthButton.addEventListener('click', () => {
+    CalendarElements.calendarControls.classList.add('open');
+    CalendarElements.calendarContainer.classList.add('months-open');
+});
+
+CalendarElements.calendarMonthItem.forEach((monthItem, monthIndex) => {
+    monthItem.addEventListener('click', () => {
+        CalendarElements.calendarControls.classList.remove('open');
+        CalendarElements.calendarContainer.classList.remove('months-open');
+
+        htmlCalendarRender(getAllDaysOfCalendar(startYear, monthIndex), monthIndex);
+    })
+});
