@@ -1,16 +1,26 @@
 // Informações do calendário
 const DateMain = new Date();
+
 const CalendarElements = {
-    calendarContainer     : document.querySelector('#calendar'),
-    calendarMonthButton   : document.querySelector('#calendarMonth'),
+    calendarContainer   : document.querySelector('#calendar'),
+    calendarMonthButton : document.querySelector('#calendarMonth'),
     calendarControls    : document.querySelector('#calendarControls'),
-    calendarMonthDays     : document.querySelector('#calendarMonthDays'),
-    calendarMonthItem     : document.querySelectorAll('#calendarControls .month'),
+    calendarMonthDays   : document.querySelector('#calendarMonthDays'),
+    calendarMonthItem   : document.querySelectorAll('#calendarControls .month'),
 }
 
-const getMonthName = (date) => date.toLocaleString('pt-br', {month:'long'});
-const getDayOfWeekName = (date) => date.toLocaleString('pt-br', {weekday:'long'});
-const getLastDayOfMonth = (year, month) => month > 12 || month < 0 ?  false : new Date(year, month, 0).getUTCDate();
+const getMonthName = (date) => {
+    return date.toLocaleString('pt-br', {month:'long'});
+};
+
+const getDayOfWeekName = (date) => {
+    return date.toLocaleString('pt-br', {weekday:'long'});
+}
+
+const getLastDayOfMonth = (year, month) => {
+    return (month > 12 || month < 0) ?  false : new Date(year, month, 0).getUTCDate();
+}
+
 const getEndDaysOfCalendar = (lastDay) => {
     const leftDays = [];
     let i;
@@ -21,6 +31,7 @@ const getEndDaysOfCalendar = (lastDay) => {
 
     return leftDays;
 }
+
 const getStartDaysOfCalendar = (firsDay) => {
     const leftDays = [];
     let i;
@@ -31,6 +42,7 @@ const getStartDaysOfCalendar = (firsDay) => {
 
     return leftDays;
 }
+
 const getAllDaysOfMonth = (year, month) => {
     const daysOfMonth = [];
     let i;
@@ -47,6 +59,7 @@ const getAllDaysOfMonth = (year, month) => {
 
     return daysOfMonth;
 }
+
 const setOutOfMonth = (...days) => {
     [...days].map((dayObject) => {
         dayObject.map((day) => day.outOfMonth = true);
@@ -54,6 +67,7 @@ const setOutOfMonth = (...days) => {
 
     return [...days];
 }
+
 const getAllDaysOfCalendar = (year, month) => {
     const arrayOfDays = getAllDaysOfMonth(year, month);
     const arrayNextDays = getAllDaysOfMonth(year, month+1);
@@ -65,6 +79,7 @@ const getAllDaysOfCalendar = (year, month) => {
 
     return arrayOfDays.reverse().concat(arrayPrevDaysSliced).reverse().concat(arrayNextDaysSliced);
 }
+
 const htmlCalendarRender = (dayMonth, month) => {
     const targetMonth = CalendarElements.calendarMonthButton;
     const targetMonthDays = CalendarElements.calendarMonthDays;
@@ -81,6 +96,8 @@ const htmlCalendarRender = (dayMonth, month) => {
     }).join('');
 }
 
+
+// Pegando mês e ano corrente
 const startYear = DateMain.getUTCFullYear();
 const startMonth = DateMain.getUTCMonth();
 
@@ -89,7 +106,7 @@ const startMonth = DateMain.getUTCMonth();
 htmlCalendarRender(getAllDaysOfCalendar(startYear, startMonth), startMonth);
 
 
-// Atribuindo eventos de funcionalidades do calendário
+// Atribuindo funcionalidades ao calendário
 CalendarElements.calendarMonthButton.addEventListener('click', () => {
     CalendarElements.calendarControls.classList.add('open');
     CalendarElements.calendarContainer.classList.add('months-open');
@@ -101,5 +118,5 @@ CalendarElements.calendarMonthItem.forEach((monthItem, monthIndex) => {
         CalendarElements.calendarContainer.classList.remove('months-open');
 
         htmlCalendarRender(getAllDaysOfCalendar(startYear, monthIndex), monthIndex);
-    })
+    });
 });
