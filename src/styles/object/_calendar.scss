@@ -62,8 +62,16 @@
         @extend %list-style-none;
         display: grid;
         height: 100%;
-        grid-template-columns: repeat(4, calc(100%/4) );
-        grid-template-rows: repeat(3, calc(100%/3) );
+
+        @media(min-width: $breakpoint-min){
+            grid-template-columns: repeat(4, calc(100%/4) );
+            grid-template-rows: repeat(3, calc(100%/3) );
+        }
+
+        @media(max-width: $breakpoint-max){
+            grid-template-columns: repeat(3, calc(100%/3) );
+            grid-template-rows: repeat(4, calc(100%/4) );
+        }
     }
 
     .month{
