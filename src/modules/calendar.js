@@ -18,7 +18,14 @@ const getDayOfWeekName = (date) => {
 }
 
 const getLastDayOfMonth = (year, month) => {
-    return (month > 12 || month < 0) ?  false : new Date(year, month, 0).getUTCDate();
+    let dateReference = [year, month+1, 0];
+
+    if(month < 0)
+        dateReference = [year-1, 12, 0];
+    else if(month > 12)
+        dateReference = [year+1, 1, 0];
+
+    return new Date(...dateReference).getUTCDate();
 }
 
 const getEndDaysOfCalendar = (lastDay) => {
@@ -48,7 +55,7 @@ const getAllDaysOfMonth = (year, month) => {
     let i;
 
     for(i = 1; i <= getLastDayOfMonth(year, month); i++) {
-        const dateMonth = new Date(year, month - 1, i);
+        const dateMonth = new Date(year, month, i);
 
         daysOfMonth.push({
             dayTo: i,
