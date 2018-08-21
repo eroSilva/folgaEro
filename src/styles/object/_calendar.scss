@@ -44,7 +44,7 @@
     @extend .btn__transparent;
     text-transform: capitalize;
     width: 100%;
-    margin: em(5px) auto;
+    margin: 0 auto;
     font-size: em(26px);
 }
 
@@ -110,7 +110,14 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 1.5em .5em;
+
+    @media(min-width: $screen-sm-min){
+        padding: 1.5em .5em;
+    }
+
+    @media(max-width: $screen-xs-max){
+        padding: 1em .5em;
+    }
 
     &.out{
         color: rgba($text-color, .3);
