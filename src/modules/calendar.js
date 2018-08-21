@@ -1,22 +1,48 @@
-// Informações do calendário
-const DateMain = new Date();
+/** Data atual do sistema */
+const systemDate = new Date();
 
-const CalendarElements = {
-    calendarContainer   : document.querySelector('#calendar'),
-    calendarMonthButton : document.querySelector('#calendarMonth'),
-    calendarControls    : document.querySelector('#calendarControls'),
-    calendarMonthDays   : document.querySelector('#calendarMonthDays'),
-    calendarMonthItem   : document.querySelectorAll('#calendarControls .month'),
+
+/** Armazenando informações do calendário que serão utilziadas com frequência */
+const calendarSettings = {
+    dateMain: {
+        full: systemDate,
+        year: systemDate.getUTCFullYear(),
+        month: systemDate.getUTCMonth(),
+    },
+    elements: {
+        calendarContainer: document.querySelector('#calendar'),
+        calendarMonthYearButton: document.querySelector('#calendarMonthYear'),
+        calendarControls: document.querySelector('#calendarControls'),
+        calendarMonthDays: document.querySelector('#calendarMonthDays'),
+        calendarMonthItem: document.querySelectorAll('#calendarControls .month'),
+        calendarYears: document.querySelector('#calendarYears')
+    }
 }
 
+
+/**
+ * Função para pegar o nome do mês
+ * @param {date} date - Data de referência
+ */
 const getMonthName = (date) => {
     return date.toLocaleString('pt-br', {month:'long'});
 };
 
+
+/**
+ * Função para pegar o nome do dia
+ * @param {date} date - Data de referência
+ */
 const getDayOfWeekName = (date) => {
     return date.toLocaleString('pt-br', {weekday:'long'});
 }
 
+
+/**
+ * Função para pegar o último dia do mês
+ * @param {string, number} year - Ano de referência
+ * @param {string, number} month - Mês de referência
+ */
 const getLastDayOfMonth = (year, month) => {
     let dateReference = [year, month+1, 0];
 
@@ -28,6 +54,11 @@ const getLastDayOfMonth = (year, month) => {
     return new Date(...dateReference).getUTCDate();
 }
 
+
+/**
+ * Função para pegar os dias que faltam para fechar uma semana completa
+ * @param {number} lastDay - **********
+ */
 const getEndDaysOfCalendar = (lastDay) => {
     const leftDays = [];
     let i;
@@ -75,6 +106,15 @@ const setOutOfMonth = (...days) => {
     return [...days];
 }
 
+const setSelectedMonth = (month) => {
+    calendarSettings.elements.calendarMonthItem.forEach((monthItem) => {monthItem.classList.remove('selected')});
+    calendarSettings.elements.calendarMonthItem[month].classList.add('selected');
+}
+
+const setYearOfCalendar = (year) => {
+    return [ year-2, year-1, year, year+1, year+2 ]
+}
+
 const getAllDaysOfCalendar = (year, month) => {
     const arrayOfDays = getAllDaysOfMonth(year, month);
     const arrayNextDays = getAllDaysOfMonth(year, month+1);
@@ -87,11 +127,31 @@ const getAllDaysOfCalendar = (year, month) => {
     return arrayOfDays.reverse().concat(arrayPrevDaysSliced).reverse().concat(arrayNextDaysSliced);
 }
 
-const htmlCalendarRender = (dayMonth, month) => {
-    const targetMonth = CalendarElements.calendarMonthButton;
-    const targetMonthDays = CalendarElements.calendarMonthDays;
+const openCalendarControls = () => {
+    calendarSettings.elements.calendarControls.classList.add('open');
+    calendarSettings.elements.calendarContainer.classList.add('months-open');
+}
 
-    targetMonth.innerHTML = getMonthName(new Date(startYear, month+1, 0));
+const closeCalendarControls = () => {
+    calendarSettings.elements.calendarControls.classList.remove('open');
+    calendarSettings.elements.calendarContainer.classList.remove('months-open');
+}
+
+const htmlCalendarRender = (year, month) => {
+    const dayMonth = getAllDaysOfCalendar(year, month);
+    const years = setYearOfCalendar(year);
+    const targetMonthYear = [... calendarSettings.elements.calendarMonthYearButton.children];
+    const targetMonthDays = calendarSettings.elements.calendarMonthDays;
+    const targetYears = calendarSettings.elements.calendarYears;
+
+    setSelectedMonth(month);
+
+    targetYears.innerHTML = years.map(yearItem => `<li class="year ${ (yearItem == year) ? 'selected': '' }" tabindex="0"> ${yearItem} </li>`).join('');
+
+    targetMonthYear.map(child => child.classList.contains('year')
+        ? child.innerHTML = year
+        : child.innerHTML = getMonthName(new Date(year, month+1, 0))
+    );
 
     targetMonthDays.innerHTML = dayMonth.map((day) => {
         return `
@@ -104,26 +164,25 @@ const htmlCalendarRender = (dayMonth, month) => {
 }
 
 
-// Pegando mês e ano corrente
-const startYear = DateMain.getUTCFullYear();
-const startMonth = DateMain.getUTCMonth();
-
-
 // Renderizando o calendário do mês corrente
-htmlCalendarRender(getAllDaysOfCalendar(startYear, startMonth), startMonth);
+htmlCalendarRender(calendarSettings.dateMain.year, calendarSettings.dateMain.month);
 
 
 // Atribuindo funcionalidades ao calendário
-CalendarElements.calendarMonthButton.addEventListener('click', () => {
-    CalendarElements.calendarControls.classList.add('open');
-    CalendarElements.calendarContainer.classList.add('months-open');
+calendarSettings.elements.calendarMonthYearButton.addEventListener('click', openCalendarControls);
+
+calendarSettings.elements.calendarMonthItem.forEach((monthItem, monthIndex) => {
+    monthItem.addEventListener('click', () => {
+        calendarSettings.dateMain.month = monthIndex;
+
+        closeCalendarControls();
+        htmlCalendarRender(calendarSettings.dateMain.year, calendarSettings.dateMain.month);
+    });
 });
 
-CalendarElements.calendarMonthItem.forEach((monthItem, monthIndex) => {
-    monthItem.addEventListener('click', () => {
-        CalendarElements.calendarControls.classList.remove('open');
-        CalendarElements.calendarContainer.classList.remove('months-open');
+calendarSettings.elements.calendarYears.addEventListener('click', (event) => {
+    calendarSettings.dateMain.year = parseInt(event.target.innerText);
 
-        htmlCalendarRender(getAllDaysOfCalendar(startYear, monthIndex), monthIndex);
-    });
+    closeCalendarControls();
+    htmlCalendarRender(calendarSettings.dateMain.year, calendarSettings.dateMain.month);
 });

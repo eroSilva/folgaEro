@@ -38,7 +38,7 @@
 
 
 // Mêses
-.calendar-month__name{
+.calendar-month-year__name{
     @extend %text-center;
     @extend .btn;
     @extend .btn__transparent;
@@ -46,6 +46,15 @@
     width: 100%;
     margin: 0 auto;
     font-size: em(26px);
+
+    .year,
+    .month{
+        display: block;
+    }
+
+    .year{
+        font-size: em(10px);
+    }
 }
 
 .calendar-controls{
@@ -54,14 +63,27 @@
     left: 0;
     right: 0;
     bottom: 0;
-    z-index: $z-months;
-    background: $primary-color;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    background: #FFF;
     transition: $transition-default cubic-bezier(0.8, 0.93, 0.35, 0.99);
+    z-index: $z-months;
+
+    .calendar-years__list{
+        @extend %list-style-none;
+        display: grid;
+        grid-template-columns: repeat(5, calc(100%/5) );
+        box-shadow: 0 -5px 10px 5px rgba(0, 0, 0, 0.2);
+        height: 100px;
+    }
 
     .calendar-months__list{
         @extend %list-style-none;
         display: grid;
-        height: 100%;
+        height: calc(100% - 100px);
+        background: rgba($primary-color, .1);
+        font-size: em(18px);
 
         @media(min-width: $breakpoint-min){
             grid-template-columns: repeat(4, calc(100%/4) );
@@ -74,9 +96,9 @@
         }
     }
 
+    .year,
     .month{
         @extend %text-center;
-        padding: 1em;
         display: flex;
         justify-content: center;
         align-items: center;
@@ -86,7 +108,14 @@
         &:hover,
         &:focus{
             background-color: darken($primary-color, 10%);
+            color: #ffffff;
         }
+    }
+
+    .selected,
+    .selected{
+        background: $primary-color;
+        color: #ffffff;
     }
 
     &:not(.open){

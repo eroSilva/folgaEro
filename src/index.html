@@ -11,7 +11,10 @@
 <body>
     <main class="container">
         <section id="calendar" class="calendar">
-            <button id="calendarMonth" class="calendar-month__name"></button>
+            <button id="calendarMonthYear" class="calendar-month-year__name">
+                <span class="year"></span>
+                <span class="month"></span>
+            </button>
             <ul class="calendar-week">
                 <li class="week-day" data-letter="D">Dom</li>
                 <li class="week-day" data-letter="S">Seg</li>
@@ -24,9 +27,7 @@
             <ul id="calendarMonthDays" class="month-days"></ul>
         </section>
         <article id="calendarControls" class="calendar-controls">
-            <ul class="calendar-years__list">
-                <li></li>
-            </ul>
+            <ul id="calendarYears" class="calendar-years__list"></ul>
             <ul class="calendar-months__list">
                 <li class="month">Jan</li>
                 <li class="month">Fev</li>
