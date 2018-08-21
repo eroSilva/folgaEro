@@ -26,7 +26,7 @@
     transition: $transition-default;
 
     &.months-open{
-        transform: scale(.8);
+        transform: scale(.7);
     }
 }
 
@@ -74,7 +74,7 @@
         @extend %list-style-none;
         display: grid;
         grid-template-columns: repeat(5, calc(100%/5) );
-        box-shadow: 0 -5px 10px 5px rgba(0, 0, 0, 0.2);
+        box-shadow: 0 15px 35px -15px rgba(0, 0, 0, 0.1);
         height: 100px;
     }
 
@@ -82,7 +82,6 @@
         @extend %list-style-none;
         display: grid;
         height: calc(100% - 100px);
-        background: rgba($primary-color, .1);
         font-size: em(18px);
 
         @media(min-width: $breakpoint-min){
@@ -99,6 +98,7 @@
     .year,
     .month{
         @extend %text-center;
+        position: relative;
         display: flex;
         justify-content: center;
         align-items: center;
@@ -110,16 +110,24 @@
             background-color: darken($primary-color, 10%);
             color: #ffffff;
         }
+
+        &:not(.selected){
+            opacity: .3;
+            transform: scale(.7);
+        }
     }
 
-    .selected,
+    .month{
+        border-radius: 3px;
+    }
+
     .selected{
-        background: $primary-color;
-        color: #ffffff;
+        color: $primary-color;
+        transform: scale(1.5);
     }
 
     &:not(.open){
-        transform: scale(1.5);
+        transform: scale(2);
         opacity: 0;
         visibility: hidden;
     }
