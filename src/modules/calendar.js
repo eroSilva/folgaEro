@@ -40,8 +40,8 @@ const getDayOfWeekName = (date) => {
 
 /**
  * Função para pegar o último dia do mês
- * @param {string, number} year - Ano de referência
- * @param {string, number} month - Mês de referência
+ * @param {number} year - Ano de referência
+ * @param {number} month - Mês de referência
  */
 const getLastDayOfMonth = (year, month) => {
     let dateReference = [year, month+1, 0];
@@ -56,8 +56,8 @@ const getLastDayOfMonth = (year, month) => {
 
 
 /**
- * Função para pegar os dias que faltam para fechar uma semana completa
- * @param {number} lastDay - **********
+ * Função para pegar os dias que faltam para fechar uma semana completa (no final do mês)
+ * @param {number} lastDay - Último dia do mês para controlar o laço de dias que faltam para completar a semana
  */
 const getEndDaysOfCalendar = (lastDay) => {
     const leftDays = [];
@@ -70,6 +70,11 @@ const getEndDaysOfCalendar = (lastDay) => {
     return leftDays;
 }
 
+
+/**
+ * Função para pegar os dias que faltam para fechar uma semana completa (no início do mês)
+ * @param {number} fisrtDay - Primeiro dia do mês para controlar o laço de dias que faltam para completar a semana
+ */
 const getStartDaysOfCalendar = (firsDay) => {
     const leftDays = [];
     let i;
@@ -81,6 +86,12 @@ const getStartDaysOfCalendar = (firsDay) => {
     return leftDays;
 }
 
+
+/**
+ * Função para pegar todos os dias do mês
+ * @param {number} year - Ano de referência
+ * @param {number} month - Mês de referência
+ */
 const getAllDaysOfMonth = (year, month) => {
     const daysOfMonth = [];
     let i;
@@ -98,6 +109,11 @@ const getAllDaysOfMonth = (year, month) => {
     return daysOfMonth;
 }
 
+
+/**
+ * Função para identificar no HTML os dias que não pertencem a um mês específico
+ * @param {array} days - Dias para marcar no HTML
+ */
 const setOutOfMonth = (...days) => {
     [...days].map((dayObject) => {
         dayObject.map((day) => day.outOfMonth = true);
@@ -106,15 +122,30 @@ const setOutOfMonth = (...days) => {
     return [...days];
 }
 
+
+/**
+ * Função para identificar no HTML o mês selecionado
+ * @param {number} month - Mês de referência
+ */
 const setSelectedMonth = (month) => {
     calendarSettings.elements.calendarMonthItem.forEach((monthItem) => {monthItem.classList.remove('selected')});
     calendarSettings.elements.calendarMonthItem[month].classList.add('selected');
 }
 
+
+/** Função para identificar no HTML o ano selecionado
+ * @param {number} year - Ano de referência
+ */
 const setYearOfCalendar = (year) => {
     return [ year-2, year-1, year, year+1, year+2 ]
 }
 
+
+/**
+ * Função para pegar todos os dias do mês, incluíndo os dias que faltam para fechar uma semana completa.
+ * @param {number} year - Ano de referência
+ * @param {number} month - Mês de referência
+ */
 const getAllDaysOfCalendar = (year, month) => {
     const arrayOfDays = getAllDaysOfMonth(year, month);
     const arrayNextDays = getAllDaysOfMonth(year, month+1);
@@ -127,16 +158,26 @@ const getAllDaysOfCalendar = (year, month) => {
     return arrayOfDays.reverse().concat(arrayPrevDaysSliced).reverse().concat(arrayNextDaysSliced);
 }
 
+
+/** Função que seta classe no HTML para abrir os controle do calendário */
 const openCalendarControls = () => {
     calendarSettings.elements.calendarControls.classList.add('open');
     calendarSettings.elements.calendarContainer.classList.add('months-open');
 }
 
+
+/** Função que seta classe no HTML para fechar os controle do calendário */
 const closeCalendarControls = () => {
     calendarSettings.elements.calendarControls.classList.remove('open');
     calendarSettings.elements.calendarContainer.classList.remove('months-open');
 }
 
+
+/**
+ * Função para renderizar os elementos do calendário no HTML
+ * @param {number} year - Ano de referência
+ * @param {number} month - Mês de referência
+ */
 const htmlCalendarRender = (year, month) => {
     const dayMonth = getAllDaysOfCalendar(year, month);
     const years = setYearOfCalendar(year);
@@ -164,11 +205,11 @@ const htmlCalendarRender = (year, month) => {
 }
 
 
-// Renderizando o calendário do mês corrente
+/** Renderizando calendário do mês corrente */
 htmlCalendarRender(calendarSettings.dateMain.year, calendarSettings.dateMain.month);
 
 
-// Atribuindo funcionalidades ao calendário
+/** Atribuindo funcionalidades ao calendário */
 calendarSettings.elements.calendarMonthYearButton.addEventListener('click', openCalendarControls);
 
 calendarSettings.elements.calendarMonthItem.forEach((monthItem, monthIndex) => {
