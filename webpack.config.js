@@ -35,8 +35,8 @@ module.exports = {
         }),
 
         new MiniCssExtractPlugin({
-            filename: "[name].css"
-        }),
+            filename: "[name].[chunkhash].css"
+        })
     ],
     module: {
         rules: [
@@ -50,16 +50,16 @@ module.exports = {
                 }
             },
 
-            // SASS
-            {
-                test: /\.scss$/,
-                use: [
-                    MiniCssExtractPlugin.loader,
-                    'css-loader',
-                    'postcss-loader',
-                    'sass-loader',
-                ]
-            },
+            // // SASS
+            // {
+            //     test: /\.scss$/,
+            //     use: [
+            //         MiniCssExtractPlugin.loader,
+            //         'css-loader',
+            //         'postcss-loader',
+            //         'sass-loader',
+            //     ]
+            // },
 
             // IMAGES
             {
