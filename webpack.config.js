@@ -50,17 +50,6 @@ module.exports = {
                 }
             },
 
-            // // SASS
-            // {
-            //     test: /\.scss$/,
-            //     use: [
-            //         MiniCssExtractPlugin.loader,
-            //         'css-loader',
-            //         'postcss-loader',
-            //         'sass-loader',
-            //     ]
-            // },
-
             // IMAGES
             {
                 test: /\.(jpe?g|png|gif)$/,
