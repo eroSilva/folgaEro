@@ -9,6 +9,9 @@ const calendarSettings = {
         year: systemDate.getUTCFullYear(),
         month: systemDate.getUTCMonth(),
     },
+    dateSelected: {},
+    lastDayOff: new Date(2018, 8, 1),
+    allDayOffYear: [],
     elements: {
         calendarContainer: document.querySelector('#calendar'),
         calendarMonthYearButton: document.querySelector('#calendarMonthYear'),
@@ -100,8 +103,9 @@ const getAllDaysOfMonth = (year, month) => {
         const dateMonth = new Date(year, month, i);
 
         daysOfMonth.push({
-            dayTo: i,
-            day: dateMonth.getUTCDay(),
+            date: dateMonth,
+            number: i,
+            week: dateMonth.getUTCDay(),
             name: getDayOfWeekName(dateMonth)
         });
     }
@@ -133,11 +137,70 @@ const setSelectedMonth = (month) => {
 }
 
 
-/** Função para identificar no HTML o ano selecionado
+/**
+ * Função para identificar no HTML o ano selecionado
  * @param {number} year - Ano de referência
  */
 const setYearOfCalendar = (year) => {
     return [ year-2, year-1, year, year+1, year+2 ]
+}
+
+
+/**
+ * Função para calcular todas as folgas anteriores a última folga registrada
+ * @param {date} lastDayOff - Data da última folga registrada
+ * @param {number} year - Ano de referência
+ */
+const setStartDayOffs = (lastDayOff, year) => {
+    const dayOffDate = {
+        year: lastDayOff.getUTCFullYear(),
+        month: lastDayOff.getUTCMonth(),
+        date: lastDayOff.getUTCDate() - 6
+    }
+
+    if(year <= dayOffDate.year){
+        const prevDayOff = new Date(dayOffDate.year, dayOffDate.month, dayOffDate.date);
+
+        calendarSettings.allDayOffYear.unshift(prevDayOff);
+        setStartDayOffs(prevDayOff, year);
+    }
+}
+
+
+/**
+ * Função para calcular todas as próximas folgas a partir da última folga registrada
+ * @param {date} lastDayOff - Data da última folga registrada
+ * @param {number} year - Ano de referência
+ */
+const setEndDayOffs = (lastDayOff, year) => {
+    const dayOffDate = {
+        year: lastDayOff.getUTCFullYear(),
+        month: lastDayOff.getUTCMonth(),
+        date: lastDayOff.getUTCDate() + 6
+    }
+
+    if(year >= dayOffDate.year){
+        const prevDayOff = new Date(dayOffDate.year, dayOffDate.month, dayOffDate.date);
+
+        calendarSettings.allDayOffYear.push(prevDayOff);
+        setEndDayOffs(prevDayOff, year);
+    }
+}
+
+
+/**
+ * Função que monta um array com todas as folgas do Ano, passadas e próximas
+ * @param {array} days - Todos os dias de folga até ou a partir do ano da última folga registrada
+ */
+const setDayOffsCalendar = (days, year) => {
+    calendarSettings.allDayOffYear = [];
+
+    setStartDayOffs(calendarSettings.lastDayOff, year);
+    setEndDayOffs(calendarSettings.lastDayOff, year);
+
+    console.log(calendarSettings.allDayOffYear);
+
+    return days;
 }
 
 
@@ -150,12 +213,16 @@ const getAllDaysOfCalendar = (year, month) => {
     const arrayOfDays = getAllDaysOfMonth(year, month);
     const arrayNextDays = getAllDaysOfMonth(year, month+1);
     const arrayPrevDays = getAllDaysOfMonth(year, month-1);
-    const arrayNextDaysSliced = arrayNextDays.filter((e,i) => i < getEndDaysOfCalendar(arrayOfDays[arrayOfDays.length - 1].day).length);
-    const arrayPrevDaysSliced = arrayPrevDays.reverse().filter((e,i) => i < getStartDaysOfCalendar(arrayOfDays[0].day).length);
+    const arrayNextDaysSliced = arrayNextDays.filter((e,i) => i < getEndDaysOfCalendar(arrayOfDays[arrayOfDays.length - 1].week).length);
+    const arrayPrevDaysSliced = arrayPrevDays.reverse().filter((e,i) => i < getStartDaysOfCalendar(arrayOfDays[0].week).length);
 
     setOutOfMonth(arrayNextDaysSliced, arrayPrevDaysSliced);
 
-    return arrayOfDays.reverse().concat(arrayPrevDaysSliced).reverse().concat(arrayNextDaysSliced);
+    const arrayAllDays = arrayOfDays.reverse().concat(arrayPrevDaysSliced).reverse().concat(arrayNextDaysSliced);
+
+    setDayOffsCalendar(arrayAllDays, year);
+
+    return arrayAllDays;
 }
 
 
@@ -179,7 +246,7 @@ const closeCalendarControls = () => {
  * @param {number} month - Mês de referência
  */
 const htmlCalendarRender = (year, month) => {
-    const dayMonth = getAllDaysOfCalendar(year, month);
+    const monthDays = getAllDaysOfCalendar(year, month);
     const years = setYearOfCalendar(year);
     const targetMonthYear = [... calendarSettings.elements.calendarMonthYearButton.children];
     const targetMonthDays = calendarSettings.elements.calendarMonthDays;
@@ -194,14 +261,20 @@ const htmlCalendarRender = (year, month) => {
         : child.innerHTML = getMonthName(new Date(year, month+1, 0))
     );
 
-    targetMonthDays.innerHTML = dayMonth.map((day) => {
+    targetMonthDays.innerHTML = monthDays.map((day) => {
         return `
             <li class="month-day${(day.outOfMonth) ? ' out' : ''}" tabindex="0">
-                <span class="month-day__number">${day.dayTo}</span>
+                <span class="month-day__number">${day.number}</span>
                 <span class="month-day__name">${day.name}</span>
             </li>
         `
     }).join('');
+
+    calendarSettings.dateSelected = {
+        full: new Date(year, month, 0),
+        year: year,
+        month: month,
+    }
 }
 
 
