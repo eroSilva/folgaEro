@@ -24,10 +24,6 @@
     box-shadow: 0 15px 35px 0px rgba(0,0,0,.04);
     border-radius: 10px;
     transition: $transition-default;
-
-    &.months-open{
-        transform: scale(.7);
-    }
 }
 
 .calendar-title{
@@ -113,7 +109,6 @@
 
         &:not(.selected){
             opacity: .3;
-            transform: scale(.7);
         }
     }
 
@@ -123,11 +118,9 @@
 
     .selected{
         color: $primary-color;
-        transform: scale(1.5);
     }
 
     &:not(.open){
-        transform: scale(2);
         opacity: 0;
         visibility: hidden;
     }
