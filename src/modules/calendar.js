@@ -188,19 +188,34 @@ const setEndDayOffs = (lastDayOff, year) => {
 }
 
 
+const getDayOffsOfMonth = (month) => {
+    return calendarSettings.allDayOffYear.filter((dayOff) => dayOff.getUTCMonth() >= month-1 && dayOff.getUTCMonth() <= month+1);
+}
+
+
 /**
  * Função que monta um array com todas as folgas do Ano, passadas e próximas
  * @param {array} days - Todos os dias de folga até ou a partir do ano da última folga registrada
  */
-const setDayOffsCalendar = (days, year) => {
-    calendarSettings.allDayOffYear = [];
+const setDayOffsCalendar = (days, year, month) => {
+    calendarSettings.allDayOffYear = [calendarSettings.lastDayOff];
 
     setStartDayOffs(calendarSettings.lastDayOff, year);
     setEndDayOffs(calendarSettings.lastDayOff, year);
 
-    console.log(calendarSettings.allDayOffYear);
+    const monthDayOffs = getDayOffsOfMonth(month);
 
-    return days;
+    const dayWithDayOffs = days.map((day) => {
+        monthDayOffs.map((dayOff) => {
+            if(dayOff.getTime() == day.date.getTime()) {
+                day.dayOff = true;
+            }
+        });
+
+        return day;
+    });
+
+    return dayWithDayOffs;
 }
 
 
@@ -220,9 +235,7 @@ const getAllDaysOfCalendar = (year, month) => {
 
     const arrayAllDays = arrayOfDays.reverse().concat(arrayPrevDaysSliced).reverse().concat(arrayNextDaysSliced);
 
-    setDayOffsCalendar(arrayAllDays, year);
-
-    return arrayAllDays;
+    return setDayOffsCalendar(arrayAllDays, year, month);
 }
 
 
@@ -252,9 +265,15 @@ const htmlCalendarRender = (year, month) => {
     const targetMonthDays = calendarSettings.elements.calendarMonthDays;
     const targetYears = calendarSettings.elements.calendarYears;
 
+    const isOutOfMont = (outOfMonth) => outOfMonth ? ' out' : '';
+    const isDayOff = (dayOff) => dayOff ? ' day-off' : '';
+    const setDayClass = (outOfMonth, dayOff) => isOutOfMont(outOfMonth) + ' ' + isDayOff(dayOff);
+
     setSelectedMonth(month);
 
-    targetYears.innerHTML = years.map(yearItem => `<li class="year ${ (yearItem == year) ? 'selected': '' }" tabindex="0"> ${yearItem} </li>`).join('');
+    targetYears.innerHTML = years.map(yearItem => {
+        return `<li class="year ${ (yearItem == year) ? 'selected': '' }" tabindex="0"> ${yearItem} </li>`
+    }).join('');
 
     targetMonthYear.map(child => child.classList.contains('year')
         ? child.innerHTML = year
@@ -263,7 +282,7 @@ const htmlCalendarRender = (year, month) => {
 
     targetMonthDays.innerHTML = monthDays.map((day) => {
         return `
-            <li class="month-day${(day.outOfMonth) ? ' out' : ''}" tabindex="0">
+            <li class="month-day${setDayClass(day.outOfMonth, day.dayOff)}" tabindex="0">
                 <span class="month-day__number">${day.number}</span>
                 <span class="month-day__name">${day.name}</span>
             </li>
