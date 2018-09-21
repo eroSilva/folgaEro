@@ -10,7 +10,7 @@ const calendarSettings = {
         month: systemDate.getUTCMonth(),
     },
     dateSelected: {},
-    lastDayOff: new Date(2018, 8, 1),
+    lastDayOff: new Date(2018, 9, 6),
     allDayOffYear: [],
     elements: {
         calendarContainer: document.querySelector('#calendar'),
