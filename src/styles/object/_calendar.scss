@@ -118,9 +118,11 @@
 
     .selected{
         color: $primary-color;
+        transform: scale(1.5);
     }
 
     &:not(.open){
+        transform: scale(2);
         opacity: 0;
         visibility: hidden;
     }
