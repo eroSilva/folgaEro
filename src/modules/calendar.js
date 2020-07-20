@@ -9,7 +9,8 @@ const calendarSettings = {
     month: systemDate.getUTCMonth(),
   },
   dateSelected: {},
-  lastDayOff: new Date(2018, 9, 6),
+  lastDayOff: new Date(2020, 6, 31),
+  daysToWorkBetweenDayOffs: 2,
   allDayOffYear: [],
   elements: {
     calendarContainer: document.querySelector('#calendar'),
@@ -144,7 +145,7 @@ const setStartDayOffs = (lastDayOff, year) => {
   const dayOffDate = {
     year: lastDayOff.getUTCFullYear(),
     month: lastDayOff.getUTCMonth(),
-    date: lastDayOff.getUTCDate() - 6,
+    date: lastDayOff.getUTCDate() - calendarSettings.daysToWorkBetweenDayOffs,
   }
 
   if (year <= dayOffDate.year) {
@@ -168,7 +169,7 @@ const setEndDayOffs = (lastDayOff, year) => {
   const dayOffDate = {
     year: lastDayOff.getUTCFullYear(),
     month: lastDayOff.getUTCMonth(),
-    date: lastDayOff.getUTCDate() + 6,
+    date: lastDayOff.getUTCDate() + calendarSettings.daysToWorkBetweenDayOffs,
   }
 
   if (year >= dayOffDate.year) {
