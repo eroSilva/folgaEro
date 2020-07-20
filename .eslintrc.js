@@ -6,6 +6,7 @@ module.exports = {
   },
   overrides: [
     {
+      files: ['.*'],
       rules: {
         'no-unused-expressions': 0,
         'no-undef': 0,
@@ -18,9 +19,9 @@ module.exports = {
       node: {
         moduleDirectory: ['node_modules', 'src'],
       },
-      'babel-module': {
-        root: ['./src'],
-      },
     },
+  },
+  env: {
+    'jest/globals': true,
   },
 }
