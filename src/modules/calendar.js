@@ -39,6 +39,19 @@ const getDayOfWeekName = date => {
 }
 
 /**
+ * Função verificar se é hoje... (???)
+ * @param {date} date - Data de referência
+ */
+const isToday = date => {
+  const today = calendarSettings.dateMain.full
+  const isSameYear = date.getUTCFullYear() === today.getUTCFullYear()
+  const isSameMonth = date.getMonth() === today.getMonth()
+  const isSameDay = date.getDate() === today.getDate()
+
+  return isSameYear && isSameMonth && isSameDay
+}
+
+/**
  * Função para pegar o último dia do mês
  * @param {number} year - Ano de referência
  * @param {number} month - Mês de referência
@@ -98,6 +111,7 @@ const getAllDaysOfMonth = (year, month) => {
       date: dateMonth,
       number: i,
       week: dateMonth.getUTCDay(),
+      today: isToday(dateMonth),
       name: getDayOfWeekName(dateMonth),
     })
   }
@@ -270,10 +284,13 @@ const htmlCalendarRender = (year, month) => {
   const targetMonthDays = calendarSettings.elements.calendarMonthDays
   const targetYears = calendarSettings.elements.calendarYears
 
-  const isOutOfMont = outOfMonth => (outOfMonth ? ' out' : '')
-  const isDayOff = dayOff => (dayOff ? ' day-off' : '')
-  const setDayClass = (outOfMonth, dayOff) =>
-    `${isOutOfMont(outOfMonth)} ${isDayOff(dayOff)}`
+  const setDayClass = ({ outOfMonth, dayOff, today }) => {
+    const outClass = outOfMonth ? 'out' : ''
+    const dayOffClass = dayOff ? 'day-off' : ''
+    const todayClass = today ? 'today' : ''
+
+    return ` ${outClass} ${dayOffClass} ${todayClass}`
+  }
 
   setSelectedMonth(month)
 
@@ -294,10 +311,7 @@ const htmlCalendarRender = (year, month) => {
   targetMonthDays.innerHTML = monthDays
     .map(day => {
       return `
-            <li class="month-day${setDayClass(
-              day.outOfMonth,
-              day.dayOff,
-            )}" tabindex="0">
+            <li class="month-day${setDayClass(day)}" tabindex="0">
                 <span class="month-day__number">${day.number}</span>
                 <span class="month-day__name">${day.name}</span>
             </li>
