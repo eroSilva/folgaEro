@@ -11,10 +11,10 @@ module.exports = merge(webpackConfig, {
   },
   devServer: {
     host: 'localhost',
+    port: 3000,
   },
   module: {
     rules: [
-      // SASS
       {
         test: /\.scss$/,
         use: [
