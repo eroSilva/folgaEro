@@ -41,9 +41,10 @@
   @extend %text-center;
   @extend .btn;
   @extend .btn__transparent;
+  text-transform: capitalize;
   width: 100%;
   margin: 0 auto;
-  font-size: em(20px);
+  font-size: em(26px);
 
   &:hover,
   &:focus {
@@ -59,6 +60,11 @@
   .year {
     font-size: em(10px);
   }
+}
+
+.calendar-today {
+  @extend %text-center;
+  margin-bottom: em(8px);
 }
 
 .calendar-controls {
