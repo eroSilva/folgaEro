@@ -163,7 +163,11 @@ const setStartDayOffs = (lastDayOff, year) => {
   }
 
   if (year <= dayOffDate.year) {
-    const prevDayOff = new Date(...dayOffDate)
+    const prevDayOff = new Date(
+      dayOffDate.year,
+      dayOffDate.month,
+      dayOffDate.date
+    )
 
     calendarSettings.allDayOffYear.unshift(prevDayOff)
     setStartDayOffs(prevDayOff, year)
@@ -183,7 +187,11 @@ const setEndDayOffs = (lastDayOff, year) => {
   }
 
   if (year >= dayOffDate.year) {
-    const prevDayOff = new Date(...dayOffDate)
+    const prevDayOff = new Date(
+      dayOffDate.year,
+      dayOffDate.month,
+      dayOffDate.date
+    )
 
     calendarSettings.allDayOffYear.push(prevDayOff)
     setEndDayOffs(prevDayOff, year)
@@ -232,12 +240,12 @@ const getAllDaysOfCalendar = (year, month) => {
   const arrayNextDays = getAllDaysOfMonth(year, month + 1)
   const arrayPrevDays = getAllDaysOfMonth(year, month - 1)
   const arrayNextDaysSliced = arrayNextDays.filter(
-    (e, i) =>
+    (_, i) =>
       i < getEndDaysOfCalendar(arrayOfDays[arrayOfDays.length - 1].week).length
   )
   const arrayPrevDaysSliced = arrayPrevDays
     .reverse()
-    .filter(i => i < getStartDaysOfCalendar(arrayOfDays[0].week).length)
+    .filter((_, i) => i < getStartDaysOfCalendar(arrayOfDays[0].week).length)
 
   setOutOfMonth(arrayNextDaysSliced, arrayPrevDaysSliced)
 
