@@ -1,18 +1,12 @@
 module.exports = {
-  extends: ['./node_modules/kcd-scripts/eslint.js'],
-  plugins: ['prettier'],
-  rules: {
-    'prettier/prettier': 'error',
-  },
-  overrides: [
-    {
-      files: ['.*'],
-      rules: {
-        'no-unused-expressions': 0,
-        'no-undef': 0,
-      },
+  extends: ['prettier'],
+  parserOptions: {
+    ecmaVersion: 6,
+    sourceType: 'module',
+    ecmaFeatures: {
+      jsx: true,
     },
-  ],
+  },
   settings: {
     'import/no-unresolved': 2,
     'import/resolver': {
@@ -21,7 +15,4 @@ module.exports = {
       },
     },
   },
-  env: {
-    'jest/globals': true,
-  },
-}
+};

@@ -163,11 +163,7 @@ const setStartDayOffs = (lastDayOff, year) => {
   }
 
   if (year <= dayOffDate.year) {
-    const prevDayOff = new Date(
-      dayOffDate.year,
-      dayOffDate.month,
-      dayOffDate.date,
-    )
+    const prevDayOff = new Date(...dayOffDate)
 
     calendarSettings.allDayOffYear.unshift(prevDayOff)
     setStartDayOffs(prevDayOff, year)
@@ -187,11 +183,7 @@ const setEndDayOffs = (lastDayOff, year) => {
   }
 
   if (year >= dayOffDate.year) {
-    const prevDayOff = new Date(
-      dayOffDate.year,
-      dayOffDate.month,
-      dayOffDate.date,
-    )
+    const prevDayOff = new Date(...dayOffDate)
 
     calendarSettings.allDayOffYear.push(prevDayOff)
     setEndDayOffs(prevDayOff, year)
@@ -201,7 +193,7 @@ const setEndDayOffs = (lastDayOff, year) => {
 const getDayOffsOfMonth = month => {
   return calendarSettings.allDayOffYear.filter(
     dayOff =>
-      dayOff.getUTCMonth() >= month - 1 && dayOff.getUTCMonth() <= month + 1,
+      dayOff.getUTCMonth() >= month - 1 && dayOff.getUTCMonth() <= month + 1
   )
 }
 
@@ -241,11 +233,11 @@ const getAllDaysOfCalendar = (year, month) => {
   const arrayPrevDays = getAllDaysOfMonth(year, month - 1)
   const arrayNextDaysSliced = arrayNextDays.filter(
     (e, i) =>
-      i < getEndDaysOfCalendar(arrayOfDays[arrayOfDays.length - 1].week).length,
+      i < getEndDaysOfCalendar(arrayOfDays[arrayOfDays.length - 1].week).length
   )
   const arrayPrevDaysSliced = arrayPrevDays
     .reverse()
-    .filter((e, i) => i < getStartDaysOfCalendar(arrayOfDays[0].week).length)
+    .filter(i => i < getStartDaysOfCalendar(arrayOfDays[0].week).length)
 
   setOutOfMonth(arrayNextDaysSliced, arrayPrevDaysSliced)
 
@@ -305,7 +297,7 @@ const htmlCalendarRender = (year, month) => {
   targetMonthYear.map(child =>
     child.classList.contains('year')
       ? (child.innerHTML = year)
-      : (child.innerHTML = getMonthName(new Date(year, month + 1, 0))),
+      : (child.innerHTML = getMonthName(new Date(year, month + 1, 0)))
   )
 
   targetMonthDays.innerHTML = monthDays
@@ -330,13 +322,13 @@ const calendar = () => {
   /** Renderizando calendário do mês corrente */
   htmlCalendarRender(
     calendarSettings.dateMain.year,
-    calendarSettings.dateMain.month,
+    calendarSettings.dateMain.month
   )
 
   /** Atribuindo funcionalidades ao calendário */
   calendarSettings.elements.calendarMonthYearButton.addEventListener(
     'click',
-    openCalendarControls,
+    openCalendarControls
   )
 
   calendarSettings.elements.calendarMonthItem.forEach(
@@ -347,10 +339,10 @@ const calendar = () => {
         closeCalendarControls()
         htmlCalendarRender(
           calendarSettings.dateMain.year,
-          calendarSettings.dateMain.month,
+          calendarSettings.dateMain.month
         )
       })
-    },
+    }
   )
 
   calendarSettings.elements.calendarYears.addEventListener('click', event => {
@@ -359,7 +351,7 @@ const calendar = () => {
     closeCalendarControls()
     htmlCalendarRender(
       calendarSettings.dateMain.year,
-      calendarSettings.dateMain.month,
+      calendarSettings.dateMain.month
     )
   })
 }

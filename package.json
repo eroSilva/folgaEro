@@ -9,7 +9,7 @@
     "start": "cross-env NODE_ENV=dev webpack-dev-server --progress --mode development --config webpack.config.dev.js",
     "build": "webpack -p --progress --mode production --config webpack.config.build.js",
     "deploy": "yarn build && gh-pages -d dist",
-    "lint": "kcd-scripts lint"
+    "lint": "eslint --ext .js ./src"
   },
   "dependencies": {},
   "devDependencies": {
@@ -24,6 +24,7 @@
     "css-mqpacker": "^7.0.0",
     "cssnano": "^4.0.5",
     "eslint": "^7.5.0",
+    "eslint-config-prettier": "^6.11.0",
     "eslint-plugin-babel": "^5.3.1",
     "eslint-plugin-import": "^2.22.0",
     "eslint-plugin-jest": "^23.18.0",
@@ -32,7 +33,6 @@
     "gh-pages": "^3.1.0",
     "html-webpack-plugin": "4.3.0",
     "husky": "^4.2.5",
-    "kcd-scripts": "^6.2.4",
     "mini-css-extract-plugin": "^0.9.0",
     "node-sass": "^4.14.1",
     "postcss-cli": "^7.1.1",
