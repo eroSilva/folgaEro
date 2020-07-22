@@ -3,8 +3,8 @@
 // -----------------------------------
 
 // PX to EM
-@mixin center-absolue($transform-extra){
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%,-50%) $transform-extra;
+@mixin center-absolue($transform-extra) {
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) $transform-extra;
 }

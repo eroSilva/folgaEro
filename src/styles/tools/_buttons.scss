@@ -3,56 +3,56 @@
 // -----------------------------------
 
 // Cores
-@mixin button-color($btn-bg, $btn-color, $state: 'darken'){
-    $background-state: '';
+@mixin button-color($btn-bg, $btn-color, $state: 'darken') {
+  $background-state: '';
 
-    @if($state == 'darken'){
-        $background-state: darken($btn-bg, 10%);
-    }
+  @if ($state == 'darken') {
+    $background-state: darken($btn-bg, 10%);
+  }
 
-    @if($state == 'lighten'){
-        $background-state: lighten($btn-bg, 5%);
-    }
+  @if ($state == 'lighten') {
+    $background-state: lighten($btn-bg, 5%);
+  }
 
-    color: $btn-color;
-    background-color: $btn-bg;
+  color: $btn-color;
+  background-color: $btn-bg;
 
-    &:hover,
-    &:focus{
-        background-color: $background-state;
-    }
+  &:hover,
+  &:focus {
+    background-color: $background-state;
+  }
 
-    &:active{
-        background-color: darken($background-state, 3%);
-    }
+  &:active {
+    background-color: darken($background-state, 3%);
+  }
 }
 
-@mixin button-transparent-color($btn-bg, $btn-color, $state: 'darken'){
-    $background-state: '';
+@mixin button-transparent-color($btn-bg, $btn-color, $state: 'darken') {
+  $background-state: '';
 
-    @if($state == 'darken'){
-        $background-state: darken($btn-bg, 10%);
-    }
+  @if ($state == 'darken') {
+    $background-state: darken($btn-bg, 10%);
+  }
 
-    @if($state == 'lighten'){
-        $background-state: lighten($btn-bg, 5%);
-    }
+  @if ($state == 'lighten') {
+    $background-state: lighten($btn-bg, 5%);
+  }
 
-    color: $btn-color;
-    background-color: transparent;
+  color: $btn-color;
+  background-color: transparent;
 
-    &:hover,
-    &:focus{
-        background-color: $background-state;
-    }
+  &:hover,
+  &:focus {
+    background-color: $background-state;
+  }
 
-    &:active{
-        background-color: darken($background-state, 3%);
-    }
+  &:active {
+    background-color: darken($background-state, 3%);
+  }
 }
 
 // Tamanho
-@mixin button-size($btn-padding, $btn-size: $font-size-base){
-   font-size: $btn-size;
-   padding: $btn-padding;
+@mixin button-size($btn-padding, $btn-size: $font-size-base) {
+  font-size: $btn-size;
+  padding: $btn-padding;
 }

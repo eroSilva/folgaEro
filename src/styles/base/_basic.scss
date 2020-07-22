@@ -3,26 +3,24 @@
 // -----------------------------------
 
 // Geral
-*{
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 
-    &:not(:hover):focus{
-        outline-style: solid;
-        outline-width: 2px;
-        outline-offset: -5px;
-        outline-color: rgba(0,0,0,0.1);
-    }
+  &:not(:hover):focus {
+    outline-style: solid;
+    outline-width: 2px;
+    outline-offset: -5px;
+    outline-color: rgba(0, 0, 0, 0.1);
+  }
 }
 
 // Body e HTML
-body{
-    font-family: $font-family-base;
-    font-size: $font-size-base;
-    line-height: normal;
-    color: $text-color;
-    background-color: $body-background;
+body {
+  font-family: $font-family-base;
+  font-size: $font-size-base;
+  line-height: normal;
+  color: $text-color;
+  background-color: $body-background;
 }
-
-
