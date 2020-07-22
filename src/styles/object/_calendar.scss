@@ -48,6 +48,12 @@
     margin: 0 auto;
     font-size: em(20px);
 
+    &:hover,
+    &:focus {
+      color: $primary-color;
+      background-color: transparent;
+    }
+
     .year,
     .month{
         display: block;
@@ -175,6 +181,7 @@
         &:after {
           display: block;
           border: 2px solid $primary-color;
+          background-image: radial-gradient(transparent 60%, #fff 64%);
         }
     }
 
@@ -199,7 +206,6 @@
     display: grid;
     grid-template-columns: repeat(7, calc(100%/7) );
     background: #FFF;
-    box-shadow: 0 15px 35px -15px rgba(0,0,0,.1);
 }
 
 .week-day{
@@ -208,6 +214,7 @@
     white-space: nowrap;
     text-overflow: ellipsis;
     padding: 1.5em .5em;
+    @extend %text-center;
 
     @media(max-width: $breakpoint-max){
         color: transparent;
