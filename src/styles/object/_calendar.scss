@@ -168,7 +168,9 @@
   }
 
   &.out {
-    opacity: 0.3;
+    > * {
+      opacity: 0.3;
+    }
   }
 
   &.day-off {
@@ -179,6 +181,11 @@
       border: 2px solid $primary-color;
       background-image: radial-gradient(transparent 60%, #fff 64%);
     }
+  }
+
+  &.sunday {
+    color: $danger-color;
+    font-weight: 600;
   }
 
   &.today {
@@ -222,5 +229,9 @@
       color: $text-color;
       transform: translate(-50%, -50%);
     }
+  }
+
+  &.sunday {
+    color: $danger-color;
   }
 }

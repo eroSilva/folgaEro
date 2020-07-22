@@ -287,12 +287,15 @@ const htmlCalendarRender = (year, month) => {
   const targetMonthDays = calendarSettings.elements.calendarMonthDays
   const targetYears = calendarSettings.elements.calendarYears
 
-  const setDayClass = ({ outOfMonth, dayOff, today }) => {
-    const outClass = outOfMonth ? 'out' : ''
-    const dayOffClass = dayOff ? 'day-off' : ''
-    const todayClass = today ? 'today' : ''
+  const setDayClass = ({ outOfMonth, dayOff, today, date }) => {
+    const classes = [
+      outOfMonth ? ' out' : '',
+      dayOff ? ' day-off' : '',
+      today ? ' today' : '',
+      date.getDay() === 0 ? ' sunday' : '',
+    ]
 
-    return ` ${outClass} ${dayOffClass} ${todayClass}`
+    return classes.join('')
   }
 
   setSelectedMonth(month)
