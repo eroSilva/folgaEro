@@ -44,10 +44,9 @@
     @extend %text-center;
     @extend .btn;
     @extend .btn__transparent;
-    text-transform: capitalize;
     width: 100%;
     margin: 0 auto;
-    font-size: em(26px);
+    font-size: em(20px);
 
     .year,
     .month{

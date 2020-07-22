@@ -23,11 +23,16 @@ const calendarSettings = {
 }
 
 /**
- * Função para pegar o nome do mês
+ * Função para pegar a data completa
  * @param {date} date - Data de referência
  */
-const getMonthName = date => {
-  return date.toLocaleString('pt-br', { month: 'long' })
+const getFullDateName = date => {
+  return date.toLocaleString('pt-br', {
+    weekday: 'long',
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+  })
 }
 
 /**
@@ -278,9 +283,7 @@ const closeCalendarControls = () => {
 const htmlCalendarRender = (year, month) => {
   const monthDays = getAllDaysOfCalendar(year, month)
   const years = setYearOfCalendar(year)
-  const targetMonthYear = [
-    ...calendarSettings.elements.calendarMonthYearButton.children,
-  ]
+  const targetMonthDate = calendarSettings.elements.calendarMonthYearButton
   const targetMonthDays = calendarSettings.elements.calendarMonthDays
   const targetYears = calendarSettings.elements.calendarYears
 
@@ -302,11 +305,7 @@ const htmlCalendarRender = (year, month) => {
     })
     .join('')
 
-  targetMonthYear.map(child =>
-    child.classList.contains('year')
-      ? (child.innerHTML = year)
-      : (child.innerHTML = getMonthName(new Date(year, month + 1, 0)))
-  )
+  targetMonthDate.innerHTML = getFullDateName(new Date(year, month + 1, 0))
 
   targetMonthDays.innerHTML = monthDays
     .map(day => {
