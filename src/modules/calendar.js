@@ -19,6 +19,8 @@ const calendarSettings = {
     calendarControls: document.querySelector('#calendarControls'),
     calendarMonthDays: document.querySelector('#calendarMonthDays'),
     calendarMonthItem: document.querySelectorAll('#calendarControls .month'),
+    calendarMonthPrev: document.querySelector('#calendarMonthPrev'),
+    calendarMonthNext: document.querySelector('#calendarMonthNext'),
     calendarYears: document.querySelector('#calendarYears'),
   },
 }
@@ -346,9 +348,19 @@ const htmlCalendarRender = (year, month) => {
   }
 }
 
+const setChangeAnimationClass = className => {
+  calendarSettings.elements.calendarContainer.classList.add(className)
+
+  setTimeout(() => {
+    calendarSettings.elements.calendarContainer.classList.remove(className)
+  }, 100)
+}
+
 const getTouchPosition = ({ changedTouches }) => changedTouches[0].clientX
 
 const renderNextMonth = () => {
+  setChangeAnimationClass('to-next')
+
   if (calendarSettings.dateMain.month === 11) {
     return htmlCalendarRender(
       ++calendarSettings.dateMain.year,
@@ -363,6 +375,8 @@ const renderNextMonth = () => {
 }
 
 const renderPrevMonth = () => {
+  setChangeAnimationClass('to-prev')
+
   if (calendarSettings.dateMain.month === 0) {
     return htmlCalendarRender(
       --calendarSettings.dateMain.year,
@@ -377,6 +391,15 @@ const renderPrevMonth = () => {
 }
 
 const calendar = () => {
+  const {
+    calendarMonthDays,
+    calendarMonthYearButton,
+    calendarMonthItem,
+    calendarYears,
+    calendarMonthPrev,
+    calendarMonthNext,
+  } = calendarSettings.elements
+
   let touchStartPosition
 
   htmlCalendarRender(
@@ -384,47 +407,36 @@ const calendar = () => {
     calendarSettings.dateMain.month
   )
 
-  calendarSettings.elements.calendarMonthDays.addEventListener(
-    'touchstart',
-    event => {
-      touchStartPosition = getTouchPosition(event)
+  calendarMonthDays.addEventListener('touchstart', event => {
+    touchStartPosition = getTouchPosition(event)
+  })
+
+  calendarMonthDays.addEventListener('touchend', event => {
+    const touchEndPosition = getTouchPosition(event)
+    const isToRight = touchStartPosition > touchEndPosition
+
+    if (isToRight) {
+      return renderNextMonth()
     }
-  )
 
-  calendarSettings.elements.calendarMonthDays.addEventListener(
-    'touchend',
-    event => {
-      const touchEndPosition = getTouchPosition(event)
-      const isToRight = touchStartPosition > touchEndPosition
+    renderPrevMonth()
+  })
 
-      if (isToRight) {
-        return renderNextMonth()
-      }
+  calendarMonthYearButton.addEventListener('click', openCalendarControls)
 
-      renderPrevMonth()
-    }
-  )
+  calendarMonthItem.forEach((monthItem, monthIndex) => {
+    monthItem.addEventListener('click', () => {
+      calendarSettings.dateMain.month = monthIndex
 
-  calendarSettings.elements.calendarMonthYearButton.addEventListener(
-    'click',
-    openCalendarControls
-  )
+      closeCalendarControls()
+      htmlCalendarRender(
+        calendarSettings.dateMain.year,
+        calendarSettings.dateMain.month
+      )
+    })
+  })
 
-  calendarSettings.elements.calendarMonthItem.forEach(
-    (monthItem, monthIndex) => {
-      monthItem.addEventListener('click', () => {
-        calendarSettings.dateMain.month = monthIndex
-
-        closeCalendarControls()
-        htmlCalendarRender(
-          calendarSettings.dateMain.year,
-          calendarSettings.dateMain.month
-        )
-      })
-    }
-  )
-
-  calendarSettings.elements.calendarYears.addEventListener('click', event => {
+  calendarYears.addEventListener('click', event => {
     calendarSettings.dateMain.year = parseInt(event.target.innerText, 10)
 
     closeCalendarControls()
@@ -433,6 +445,9 @@ const calendar = () => {
       calendarSettings.dateMain.month
     )
   })
+
+  calendarMonthPrev.addEventListener('click', renderPrevMonth)
+  calendarMonthNext.addEventListener('click', renderNextMonth)
 }
 
 export { calendar }
