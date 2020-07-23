@@ -346,14 +346,65 @@ const htmlCalendarRender = (year, month) => {
   }
 }
 
+const getTouchPosition = ({ changedTouches }) => changedTouches[0].clientX
+
+const renderNextMonth = () => {
+  if (calendarSettings.dateMain.month === 11) {
+    return htmlCalendarRender(
+      ++calendarSettings.dateMain.year,
+      (calendarSettings.dateMain.month = 0)
+    )
+  }
+
+  htmlCalendarRender(
+    calendarSettings.dateMain.year,
+    ++calendarSettings.dateMain.month
+  )
+}
+
+const renderPrevMonth = () => {
+  if (calendarSettings.dateMain.month === 0) {
+    return htmlCalendarRender(
+      --calendarSettings.dateMain.year,
+      (calendarSettings.dateMain.month = 11)
+    )
+  }
+
+  htmlCalendarRender(
+    calendarSettings.dateMain.year,
+    --calendarSettings.dateMain.month
+  )
+}
+
 const calendar = () => {
-  /** Renderizando calendário do mês corrente */
+  let touchStartPosition
+
   htmlCalendarRender(
     calendarSettings.dateMain.year,
     calendarSettings.dateMain.month
   )
 
-  /** Atribuindo funcionalidades ao calendário */
+  calendarSettings.elements.calendarMonthDays.addEventListener(
+    'touchstart',
+    event => {
+      touchStartPosition = getTouchPosition(event)
+    }
+  )
+
+  calendarSettings.elements.calendarMonthDays.addEventListener(
+    'touchend',
+    event => {
+      const touchEndPosition = getTouchPosition(event)
+      const isToRight = touchStartPosition > touchEndPosition
+
+      if (isToRight) {
+        return renderNextMonth()
+      }
+
+      renderPrevMonth()
+    }
+  )
+
   calendarSettings.elements.calendarMonthYearButton.addEventListener(
     'click',
     openCalendarControls

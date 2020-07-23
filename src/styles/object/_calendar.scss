@@ -238,6 +238,13 @@
   }
 
   &.sunday {
-    color: $danger-color;
+    @media (min-width: $breakpoint-min) {
+      color: $danger-color;
+    }
+
+    &:before {
+      color: $danger-color;
+      font-weight: 600;
+    }
   }
 }
