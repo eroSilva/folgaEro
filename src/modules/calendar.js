@@ -9,7 +9,7 @@ const calendarSettings = {
     month: systemDate.getUTCMonth(),
   },
   dateSelected: {},
-  lastDayOff: new Date(2020, 6, 31),
+  lastDayOff: new Date(2020, 7, 1),
   daysToWorkBetweenDayOffs: 2,
   allDayOffYear: [],
   elements: {
@@ -413,13 +413,16 @@ const calendar = () => {
 
   calendarMonthDays.addEventListener('touchend', event => {
     const touchEndPosition = getTouchPosition(event)
-    const isToRight = touchStartPosition > touchEndPosition
+    const isToRight = touchStartPosition > touchEndPosition * 1.15
+    const isToLeft = touchStartPosition * 1.15 < touchEndPosition
 
     if (isToRight) {
-      return renderNextMonth()
+      renderNextMonth()
     }
 
-    renderPrevMonth()
+    if (isToLeft) {
+      renderPrevMonth()
+    }
   })
 
   calendarMonthYearButton.addEventListener('click', openCalendarControls)
