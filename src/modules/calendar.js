@@ -359,7 +359,7 @@ const setChangeAnimationClass = className => {
 
   setTimeout(() => {
     calendarSettings.elements.calendarContainer.classList.remove(className)
-  }, 100)
+  }, 150)
 }
 
 const getTouchPosition = ({ changedTouches }) => changedTouches[0].clientX
