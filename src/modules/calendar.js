@@ -255,13 +255,19 @@ const getAllDaysOfCalendar = (year, month) => {
   const arrayOfDays = getAllDaysOfMonth(year, month)
   const arrayNextDays = getAllDaysOfMonth(year, month + 1)
   const arrayPrevDays = getAllDaysOfMonth(year, month - 1)
-  const arrayNextDaysSliced = arrayNextDays.filter(
-    (_, i) =>
-      i < getEndDaysOfCalendar(arrayOfDays[arrayOfDays.length - 1].week).length
-  )
-  const arrayPrevDaysSliced = arrayPrevDays
+
+  let arrayPrevDaysSliced = arrayPrevDays
     .reverse()
     .filter((_, i) => i < getStartDaysOfCalendar(arrayOfDays[0].week).length)
+
+  if (arrayPrevDaysSliced.length === 0) {
+    arrayPrevDaysSliced = arrayPrevDays.slice(0, 7)
+  }
+
+  const numeberOfDaysToComplete =
+    42 - (arrayPrevDaysSliced.length + arrayOfDays.length)
+
+  const arrayNextDaysSliced = arrayNextDays.slice(0, numeberOfDaysToComplete)
 
   setOutOfMonth(arrayNextDaysSliced, arrayPrevDaysSliced)
 
