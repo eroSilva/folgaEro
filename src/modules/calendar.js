@@ -256,13 +256,9 @@ const getAllDaysOfCalendar = (year, month) => {
   const arrayNextDays = getAllDaysOfMonth(year, month + 1)
   const arrayPrevDays = getAllDaysOfMonth(year, month - 1)
 
-  let arrayPrevDaysSliced = arrayPrevDays
+  const arrayPrevDaysSliced = arrayPrevDays
     .reverse()
     .filter((_, i) => i < getStartDaysOfCalendar(arrayOfDays[0].week).length)
-
-  if (arrayPrevDaysSliced.length === 0) {
-    arrayPrevDaysSliced = arrayPrevDays.slice(0, 7)
-  }
 
   const numeberOfDaysToComplete =
     42 - (arrayPrevDaysSliced.length + arrayOfDays.length)
